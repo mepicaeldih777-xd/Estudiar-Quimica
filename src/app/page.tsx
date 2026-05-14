@@ -12,10 +12,18 @@ export default function Home() {
                 <h2 style={{ fontSize: '2.5rem', marginTop: '1rem' }}>
                     Domina la Química de forma Adaptativa
                 </h2>
-                <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', fontSize: '1.125rem' }}>
+                <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', fontSize: '1.125rem', marginBottom: '2rem' }}>
                     Una herramienta diseñada para estudiantes que buscan comprender la Tabla Periódica
                     y el Balanceo Químico mediante una ruta de aprendizaje personalizada.
                 </p>
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                    <a href="/assessment" className="btn" style={{ padding: '0.75rem 2rem', background: 'var(--accent)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontWeight: 600 }}>
+                        Realizar Evaluación Inicial
+                    </a>
+                    <a href="/registro-temas" className="btn-secondary" style={{ padding: '0.75rem 2rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'transparent', textDecoration: 'none', color: 'inherit' }}>
+                        Mi Registro de Temas
+                    </a>
+                </div>
             </header>
 
             <PeriodicTable />

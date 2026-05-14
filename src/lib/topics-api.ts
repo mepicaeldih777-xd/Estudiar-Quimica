@@ -8,6 +8,8 @@ export interface Topic {
     orden: number
     dificultad_base: number
     children?: Topic[]
+    definicion?: string
+    ejemplo?: string
 }
 
 /**

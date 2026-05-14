@@ -1,0 +1,19 @@
+[00:00:02.674] Server  LOG     ✓ Ready in 1920ms
+[00:01:06.557] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:01:07.521] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:58.188] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:02:58.381] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:26.111] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:03:26.313] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:30.958] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:03:31.167] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:03:46.932] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:03:47.106] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:39.841] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:04:40.402] Server  WARN    ⚠ Cross origin request detected from 10.2.0.2 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+[00:04:40.443] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:11.669] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:05:11.840] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:05:12.348] Server  ERROR   Error al obtener temas: "TypeError: fetch failed"
+[00:05:12.621] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

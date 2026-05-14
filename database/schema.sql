@@ -6,6 +6,8 @@ CREATE TABLE temas (
     parent_id UUID REFERENCES temas(id) ON DELETE CASCADE,
     nombre TEXT NOT NULL,
     descripcion TEXT,
+    definicion TEXT,
+    ejemplo TEXT,
     orden INT DEFAULT 0,
     dificultad_base INT DEFAULT 1 CHECK (dificultad_base BETWEEN 1 AND 5),
     creado_en TIMESTAMP WITH TIME ZONE DEFAULT NOW()

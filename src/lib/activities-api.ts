@@ -28,3 +28,18 @@ export async function getActivitiesByTopic(topicId: string, level: number = 1): 
 
     return data as Activity[]
 }
+
+export async function getActivityById(id: string): Promise<Activity | null> {
+    const { data, error } = await supabase
+        .from('actividades')
+        .select('*')
+        .eq('id', id)
+        .single()
+
+    if (error || !data) {
+        console.error('Error al obtener actividad:', error?.message)
+        return null
+    }
+
+    return data as Activity
+}
