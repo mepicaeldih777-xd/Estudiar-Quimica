@@ -9,18 +9,18 @@ export default function Home() {
 
             <header className="hero">
                 <h1 className="badge">¡Bienvenido!</h1>
-                <h2 style={{ fontSize: '2.5rem', marginTop: '1rem' }}>
+                <h2 className="hero-title">
                     Domina la Química de forma Adaptativa
                 </h2>
-                <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', fontSize: '1.125rem', marginBottom: '2rem' }}>
+                <p className="hero-subtitle">
                     Una herramienta diseñada para estudiantes que buscan comprender la Tabla Periódica
                     y el Balanceo Químico mediante una ruta de aprendizaje personalizada.
                 </p>
-                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                    <a href="/assessment" className="btn" style={{ padding: '0.75rem 2rem', background: 'var(--accent)', color: '#fff', borderRadius: '8px', textDecoration: 'none', fontWeight: 600 }}>
+                <div className="hero-buttons">
+                    <a href="/assessment" className="btn-primary">
                         Realizar Evaluación Inicial
                     </a>
-                    <a href="/registro-temas" className="btn-secondary" style={{ padding: '0.75rem 2rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'transparent', textDecoration: 'none', color: 'inherit' }}>
+                    <a href="/registro-temas" className="btn-outline">
                         Mi Registro de Temas
                     </a>
                 </div>
@@ -28,7 +28,7 @@ export default function Home() {
 
             <PeriodicTable />
 
-            <div className="grid-cards" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginTop: '3rem' }}>
+            <div className="grid-cards">
                 <div className="card">
                     <Book className="topic-icon" style={{ marginBottom: '1rem' }} />
                     <h3>Estudio Jerárquico</h3>

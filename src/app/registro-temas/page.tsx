@@ -75,12 +75,12 @@ export default function RegistroTemasPage() {
         <div className="registro-temas-page">
             <Breadcrumbs path={[{ id: 'registro-temas', name: 'Registro de Temas' }]} />
 
-            <header style={{ marginBottom: '3rem', textAlign: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'center' }}>
+            <header className="page-header">
+                <div className="page-title-container">
                     <Target size={48} color="var(--accent)" />
-                    <h1 style={{ fontSize: '3rem' }}>Registro de Temas a Estudiar</h1>
+                    <h1 className="page-title">Registro de Temas a Estudiar</h1>
                 </div>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '1.25rem', maxWidth: '600px', margin: '1rem auto' }}>
+                <p className="page-subtitle">
                     Organiza tus propios objetivos de aprendizaje. Aquí puedes registrar los temas
                     o conceptos específicos que necesitas dominar.
                 </p>
@@ -93,7 +93,7 @@ export default function RegistroTemasPage() {
                         <h2 style={{ margin: 0 }}>Mis Objetivos</h2>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem' }}>
+                    <div className="input-group">
                         <input
                             type="text"
                             value={nuevaTarea}

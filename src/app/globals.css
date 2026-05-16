@@ -686,11 +686,95 @@ h3 {
   }
 }
 
+/* Utility classes replacing inline styles */
+.hero {
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  margin-top: 1rem;
+}
+
+.hero-subtitle {
+  color: var(--text-secondary);
+  max-width: 600px;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-primary {
+  padding: 0.75rem 2rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.btn-outline {
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  text-decoration: none;
+  color: var(--text-primary);
+  display: inline-block;
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.page-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.page-title-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin: 1rem auto;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .layout {
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
   
   .mobile-header {
@@ -758,6 +842,13 @@ h3 {
   
   .main-content {
     padding: 1.5rem 1rem;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .periodic-table {
+    min-width: 800px;
   }
   
   .balancing-game {
@@ -803,6 +894,40 @@ h3 {
   .play-btn {
     align-self: flex-end;
     margin-top: -2rem;
+  }
+
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-primary, .btn-outline {
+    text-align: center;
+  }
+
+  .grid-cards {
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .input-group {
+    flex-direction: column;
   }
 }
 
