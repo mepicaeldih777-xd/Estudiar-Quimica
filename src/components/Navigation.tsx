@@ -1,8 +1,8 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { ChevronRight, LayoutGrid, BookOpen } from 'lucide-react'
+import { ChevronRight, LayoutGrid, BookOpen, Menu, X } from 'lucide-react'
 import { Topic } from '@/lib/topics-api'
 
 interface NavigationProps {
@@ -11,27 +11,43 @@ interface NavigationProps {
 }
 
 export const Sidebar: React.FC<NavigationProps> = ({ topics, currentTopicId }) => {
+    const [isOpen, setIsOpen] = useState(false)
+
     return (
-        <nav className="sidebar">
-            <div className="sidebar-header">
+        <>
+            <div className="mobile-header">
                 <Link href="/" className="logo">
                     <LayoutGrid size={24} color="var(--accent)" />
                     <span>Química App</span>
                 </Link>
+                <button className="menu-btn" onClick={() => setIsOpen(!isOpen)}>
+                    {isOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </div>
+            
+            <nav className={`sidebar ${isOpen ? 'open' : ''}`}>
+                <div className="sidebar-header desktop-only">
+                    <Link href="/" className="logo">
+                        <LayoutGrid size={24} color="var(--accent)" />
+                        <span>Química App</span>
+                    </Link>
+                </div>
 
-            <div className="section-label">Temas de Estudio</div>
-            <div className="topic-list">
-                {topics.map((topic) => (
-                    <TopicItem key={topic.id} topic={topic} currentId={currentTopicId} depth={0} />
-                ))}
-            </div>
-        </nav>
+                <div className="section-label">Temas de Estudio</div>
+                <div className="topic-list">
+                    {topics.map((topic) => (
+                        <TopicItem key={topic.id} topic={topic} currentId={currentTopicId} depth={0} onClick={() => setIsOpen(false)} />
+                    ))}
+                </div>
+            </nav>
+            
+            {isOpen && <div className="sidebar-overlay" onClick={() => setIsOpen(false)}></div>}
+        </>
     )
 }
 
-const TopicItem: React.FC<{ topic: Topic; currentId?: string; depth: number }> = ({
-    topic, currentId, depth
+const TopicItem: React.FC<{ topic: Topic; currentId?: string; depth: number; onClick?: () => void }> = ({
+    topic, currentId, depth, onClick
 }) => {
     const isActive = topic.id === currentId
     const hasChildren = topic.children && topic.children.length > 0
@@ -42,6 +58,7 @@ const TopicItem: React.FC<{ topic: Topic; currentId?: string; depth: number }> =
                 href={`/topic/${topic.id}`}
                 className={`topic-item ${isActive ? 'active' : ''}`}
                 style={{ paddingLeft: `${depth * 12 + 12}px` }}
+                onClick={onClick}
             >
                 <BookOpen size={16} className="topic-icon" />
                 <span className="topic-name">{topic.nombre}</span>
@@ -51,7 +68,7 @@ const TopicItem: React.FC<{ topic: Topic; currentId?: string; depth: number }> =
             {hasChildren && (
                 <div className="topic-children">
                     {topic.children?.map((child: Topic) => (
-                        <TopicItem key={child.id} topic={child} currentId={currentId} depth={depth + 1} />
+                        <TopicItem key={child.id} topic={child} currentId={currentId} depth={depth + 1} onClick={onClick} />
                     ))}
                 </div>
             )}
