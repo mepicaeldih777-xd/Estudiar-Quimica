@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { ChevronRight, LayoutGrid, BookOpen, Menu, X, LogOut, User } from 'lucide-react'
+import { ChevronRight, BookOpen, Menu, X, LogOut, User } from 'lucide-react'
 import { Topic } from '@/lib/topics-api'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -26,8 +26,12 @@ export const Sidebar: React.FC<NavigationProps> = ({ topics, currentTopicId, use
     return (
         <>
             <div className="mobile-header">
-                <Link href="/" className="logo">
-                    <LayoutGrid size={24} color="var(--accent)" />
+                <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                    <img 
+                        src="/logo.jpg" 
+                        alt="EQ Logo" 
+                        style={{ width: '28px', height: '28px', borderRadius: '6px', objectFit: 'cover' }} 
+                    />
                     <span>Química App</span>
                 </Link>
                 <button className="menu-btn" onClick={() => setIsOpen(!isOpen)}>
@@ -37,8 +41,12 @@ export const Sidebar: React.FC<NavigationProps> = ({ topics, currentTopicId, use
             
             <nav className={`sidebar ${isOpen ? 'open' : ''}`}>
                 <div className="sidebar-header desktop-only">
-                    <Link href="/" className="logo">
-                        <LayoutGrid size={24} color="var(--accent)" />
+                    <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                        <img 
+                            src="/logo.jpg" 
+                            alt="EQ Logo" 
+                            style={{ width: '32px', height: '32px', borderRadius: '8px', objectFit: 'cover' }} 
+                        />
                         <span>Química App</span>
                     </Link>
                 </div>

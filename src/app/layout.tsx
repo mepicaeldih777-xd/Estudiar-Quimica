@@ -5,8 +5,12 @@ import { getTopicsAsTree } from '@/lib/topics-api'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
-    title: 'Química App | Aprendizaje Adaptativo',
-    description: 'Herramienta educativa para la Tabla Periódica y Balanceo Químico',
+    title: 'Estudiar Química | Aplicativo con IA',
+    description: 'Herramienta educativa interactiva y adaptativa para la Tabla Periódica y Balanceo Químico.',
+    icons: {
+        icon: '/logo.jpg',
+        apple: '/logo.jpg'
+    }
 }
 
 export default async function RootLayout({
@@ -23,7 +27,43 @@ export default async function RootLayout({
             <body>
                 <div className="layout">
                     <Sidebar topics={topics} user={session?.user} />
-                    <main className="main-content">
+                    <main className="main-content" style={{ position: 'relative' }}>
+                        
+                        {/* Logotipo en la parte superior derecha dentro de la aplicación */}
+                        <div 
+                            style={{
+                                position: 'absolute',
+                                top: '1.5rem',
+                                right: '3rem',
+                                zIndex: 100,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.75rem',
+                                background: 'var(--bg-secondary)',
+                                padding: '0.5rem 1rem',
+                                borderRadius: '12px',
+                                border: '1px solid var(--border)',
+                                boxShadow: 'var(--shadow)',
+                                pointerEvents: 'none'
+                            }} 
+                            className="desktop-only"
+                        >
+                            <img 
+                                src="/logo.jpg" 
+                                alt="EQ Estudiar Química Logo" 
+                                style={{
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '8px',
+                                    objectFit: 'cover'
+                                }} 
+                            />
+                            <div style={{ textAlign: 'left' }}>
+                                <span style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', fontFamily: "'Outfit', sans-serif" }}>Estudiar Química</span>
+                                <span style={{ display: 'block', fontSize: '0.675rem', color: 'var(--text-secondary)' }}>EQ Aplicativo</span>
+                            </div>
+                        </div>
+
                         {children}
                     </main>
                 </div>
