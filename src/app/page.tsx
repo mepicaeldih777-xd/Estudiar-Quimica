@@ -29,29 +29,29 @@ export default function Home() {
             <PeriodicTable />
 
             <div className="grid-cards">
-                <div className="card">
+                <a href="/topic/a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11" className="card interactive-card">
                     <Book className="topic-icon" style={{ marginBottom: '1rem' }} />
                     <h3>Estudio Jerárquico</h3>
                     <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
                         Navega por temas estructurados desde conceptos básicos hasta Propiedades Periódicas avanzadas.
                     </p>
-                </div>
+                </a>
 
-                <div className="card">
+                <a href="/assessment" className="card interactive-card">
                     <Zap className="topic-icon" style={{ marginBottom: '1rem' }} />
                     <h3>Actividades Adaptativas</h3>
                     <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
                         Actividades que ajustan su dificultad según tu nivel actual de desempeño.
                     </p>
-                </div>
+                </a>
 
-                <div className="card">
+                <a href="/balancing" className="card interactive-card">
                     <Target className="topic-icon" style={{ marginBottom: '1rem' }} />
                     <h3>Gamificación</h3>
                     <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
                         Supera desafíos, acumula puntos y compite de forma amistosa mientras aprendes.
                     </p>
-                </div>
+                </a>
             </div>
         </div>
     )

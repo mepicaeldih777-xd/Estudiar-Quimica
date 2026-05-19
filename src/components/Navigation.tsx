@@ -2,16 +2,26 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { ChevronRight, LayoutGrid, BookOpen, Menu, X } from 'lucide-react'
+import { ChevronRight, LayoutGrid, BookOpen, Menu, X, LogOut, User } from 'lucide-react'
 import { Topic } from '@/lib/topics-api'
+import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
 interface NavigationProps {
     topics: Topic[]
     currentTopicId?: string
+    user?: any
 }
 
-export const Sidebar: React.FC<NavigationProps> = ({ topics, currentTopicId }) => {
+export const Sidebar: React.FC<NavigationProps> = ({ topics, currentTopicId, user }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const router = useRouter()
+    const supabase = createClient()
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut()
+        router.refresh()
+    }
 
     return (
         <>
@@ -34,10 +44,42 @@ export const Sidebar: React.FC<NavigationProps> = ({ topics, currentTopicId }) =
                 </div>
 
                 <div className="section-label">Temas de Estudio</div>
-                <div className="topic-list">
+                <div className="topic-list" style={{ flex: 1, overflowY: 'auto' }}>
                     {topics.map((topic) => (
                         <TopicItem key={topic.id} topic={topic} currentId={currentTopicId} depth={0} onClick={() => setIsOpen(false)} />
                     ))}
+                </div>
+
+                <div className="auth-section" style={{ padding: '1rem', borderTop: '1px solid var(--border)', marginTop: 'auto' }}>
+                    {user ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                {user.user_metadata?.avatar_url ? (
+                                    <img src={user.user_metadata.avatar_url} alt="Avatar" style={{ width: '24px', height: '24px', borderRadius: '50%' }} />
+                                ) : (
+                                    <User size={16} />
+                                )}
+                                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                    {user.user_metadata?.full_name || user.email}
+                                </span>
+                            </div>
+                            <button 
+                                onClick={handleLogout}
+                                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.9rem', width: '100%', justifyContent: 'center' }}
+                            >
+                                <LogOut size={16} />
+                                Cerrar Sesión
+                            </button>
+                        </div>
+                    ) : (
+                        <Link 
+                            href="/login"
+                            style={{ display: 'block', textAlign: 'center', padding: '0.75rem', background: 'var(--accent)', color: 'white', borderRadius: '8px', fontWeight: 500, textDecoration: 'none' }}
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Iniciar Sesión
+                        </Link>
+                    )}
                 </div>
             </nav>
             

@@ -1,10 +1,12 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Activity } from '@/lib/activities-api'
-import { CheckCircle2, XCircle, ArrowRight, Trophy, Sparkles } from 'lucide-react'
+import { CheckCircle2, XCircle, ArrowRight, Trophy, Sparkles, Award } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import { getUserProgressForTopic, saveUserProgressForTopic } from '@/lib/progress-api'
 
 interface ActivityRunnerProps {
     activity: Activity
@@ -13,7 +15,31 @@ interface ActivityRunnerProps {
 export const ActivityRunner: React.FC<ActivityRunnerProps> = ({ activity }) => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
     const [isSubmitted, setIsSubmitted] = useState(false)
+    const [user, setUser] = useState<any>(null)
+    const [currentLevel, setCurrentLevel] = useState<number>(1)
+    const [levelUpOccurred, setLevelUpOccurred] = useState<boolean>(false)
+    const [newLevel, setNewLevel] = useState<number>(1)
+    
     const router = useRouter()
+    const supabase = createClient()
+
+    useEffect(() => {
+        supabase.auth.getSession().then(async ({ data: { session } }) => {
+            if (session?.user) {
+                setUser(session.user)
+                const lvl = await getUserProgressForTopic(supabase, session.user.id, activity.tema_id)
+                setCurrentLevel(lvl)
+            } else {
+                // Usuario anónimo
+                const cookieLevel = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('quimica_nivel_base='))
+                    ?.split('=')[1]
+                const lvl = cookieLevel ? parseInt(cookieLevel, 10) : 1
+                setCurrentLevel(lvl)
+            }
+        })
+    }, [supabase, activity.tema_id])
 
     const content = activity.contenido as {
         pregunta: string
@@ -25,15 +51,33 @@ export const ActivityRunner: React.FC<ActivityRunnerProps> = ({ activity }) => {
 
     const isCorrect = selectedOption === respuesta_correcta
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!selectedOption) return
         setIsSubmitted(true)
+
+        if (isCorrect) {
+            // Lógica Adaptativa: Subir de nivel si completa una actividad de dificultad adecuada
+            if (activity.nivel_dificultad >= currentLevel) {
+                const nextLvl = Math.min(5, currentLevel + 1)
+                if (nextLvl > currentLevel) {
+                    setLevelUpOccurred(true)
+                    setNewLevel(nextLvl)
+                    
+                    // Guardar progreso
+                    if (user) {
+                        await saveUserProgressForTopic(supabase, user.id, activity.tema_id, nextLvl)
+                    } else {
+                        document.cookie = `quimica_nivel_base=${nextLvl}; path=/; max-age=31536000`
+                        localStorage.setItem('quimica_nivel_base', nextLvl.toString())
+                    }
+                }
+            }
+        }
     }
 
     const handleContinue = () => {
-        // En un proyecto real, aquí guardaríamos el progreso/puntaje en la DB
-        // y recalcularíamos el nivel adaptativo del usuario.
         router.push(`/topic/${activity.tema_id}`)
+        router.refresh() // Actualizar el Server Component para recargar actividades del nuevo nivel
     }
 
     return (
@@ -185,6 +229,24 @@ export const ActivityRunner: React.FC<ActivityRunnerProps> = ({ activity }) => {
                                 : `La respuesta correcta es "${respuesta_correcta}". ¡Repasa la teoría e inténtalo de nuevo!`
                             }
                         </p>
+                        {levelUpOccurred && (
+                            <div style={{
+                                marginTop: '1rem',
+                                padding: '0.75rem 1rem',
+                                borderRadius: '8px',
+                                backgroundColor: '#fef3c7',
+                                border: '1px solid #f59e0b',
+                                color: '#92400e',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                fontWeight: '600',
+                                fontSize: '0.95rem'
+                            }}>
+                                <Award size={20} color="#d97706" />
+                                <span>¡Subiste de nivel! Tu nivel de maestría para este tema es ahora {newLevel}.</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

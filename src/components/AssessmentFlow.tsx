@@ -1,27 +1,54 @@
 'use client'
 
-import React, { useState } from 'react'
-import { ASSESSMENT_QUESTIONS, AssessmentQuestion } from '@/lib/assessment-data'
+import React, { useState, useEffect } from 'react'
+import { ASSESSMENT_QUESTIONS } from '@/lib/assessment-data'
 import { CheckCircle, ArrowRight, BrainCircuit, RotateCcw } from 'lucide-react'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
+import { initUserProgressFromAssessment } from '@/lib/progress-api'
 
 export const AssessmentFlow: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0)
     const [score, setScore] = useState(0)
     const [finished, setFinished] = useState(false)
     const [selectedOption, setSelectedOption] = useState<string | null>(null)
+    const [user, setUser] = useState<any>(null)
+    const supabase = createClient()
 
-    const currentQuestion = ASSESSMENT_QUESTIONS[currentIndex]
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+                setUser(session.user)
+            }
+        })
+    }, [supabase])
 
-    const handleNext = () => {
-        if (selectedOption === currentQuestion.correctAnswer) {
-            setScore(s => s + 1)
+    const handleNext = async () => {
+        let currentScore = score
+        if (selectedOption === ASSESSMENT_QUESTIONS[currentIndex].correctAnswer) {
+            currentScore += 1
+            setScore(currentScore)
         }
 
         if (currentIndex < ASSESSMENT_QUESTIONS.length - 1) {
             setCurrentIndex(i => i + 1)
             setSelectedOption(null)
         } else {
+            const calculatedLevel = Math.max(1, currentScore) // 1-5
+            
+            // Guardar en cookies y localStorage para persistencia offline
+            document.cookie = `quimica_nivel_base=${calculatedLevel}; path=/; max-age=31536000`
+            localStorage.setItem('quimica_nivel_base', calculatedLevel.toString())
+
+            // Si está autenticado, guardar en Supabase
+            if (user) {
+                try {
+                    await initUserProgressFromAssessment(supabase, user.id, calculatedLevel)
+                } catch (err) {
+                    console.error('Error saving assessment to database:', err)
+                }
+            }
+
             setFinished(true)
         }
     }
@@ -32,6 +59,8 @@ export const AssessmentFlow: React.FC = () => {
         setFinished(false)
         setSelectedOption(null)
     }
+
+    const currentQuestion = ASSESSMENT_QUESTIONS[currentIndex]
 
     if (finished) {
         const level = Math.max(1, score) // El nivel es el score (0-5) mapeado a 1-5
