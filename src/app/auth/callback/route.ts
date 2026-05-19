@@ -11,7 +11,12 @@ export async function GET(request: Request) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+      const response = NextResponse.redirect(`${origin}${next}`)
+      response.cookies.set('quimica_visited', 'true', {
+        maxAge: 60 * 60 * 24 * 365 * 10, // 10 years
+        path: '/',
+      })
+      return response
     }
   }
 
