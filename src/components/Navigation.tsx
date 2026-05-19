@@ -28,7 +28,7 @@ export const Sidebar: React.FC<NavigationProps> = ({ topics, currentTopicId, use
             <div className="mobile-header">
                 <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                     <img 
-                        src="/logo.jpg" 
+                        src="/logo.png" 
                         alt="EQ Logo" 
                         style={{ width: '28px', height: '28px', borderRadius: '6px', objectFit: 'cover' }} 
                     />
@@ -43,7 +43,7 @@ export const Sidebar: React.FC<NavigationProps> = ({ topics, currentTopicId, use
                 <div className="sidebar-header desktop-only">
                     <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                         <img 
-                            src="/logo.jpg" 
+                            src="/logo.png" 
                             alt="EQ Logo" 
                             style={{ width: '32px', height: '32px', borderRadius: '8px', objectFit: 'cover' }} 
                         />

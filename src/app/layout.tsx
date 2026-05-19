@@ -8,8 +8,8 @@ export const metadata: Metadata = {
     title: 'Estudiar Química | Aplicativo con IA',
     description: 'Herramienta educativa interactiva y adaptativa para la Tabla Periódica y Balanceo Químico.',
     icons: {
-        icon: '/logo.jpg',
-        apple: '/logo.jpg'
+        icon: '/logo.png',
+        apple: '/logo.png'
     }
 }
 
@@ -49,7 +49,7 @@ export default async function RootLayout({
                             className="desktop-only"
                         >
                             <img 
-                                src="/logo.jpg" 
+                                src="/logo.png" 
                                 alt="EQ Estudiar Química Logo" 
                                 style={{
                                     width: '40px',
