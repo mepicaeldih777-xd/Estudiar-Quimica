@@ -204,7 +204,7 @@ export default function RegistroTemasPage() {
                 </p>
             </header>
 
-            <div style={{ display: 'grid', gridTemplateColumns: selectedPlan ? '1fr 1fr' : '1fr', gap: '2rem', transition: 'all 0.3s ease-in-out' }}>
+            <div className={`registro-temas-layout ${selectedPlan ? 'split' : ''}`}>
                 
                 {/* Panel Izquierdo: Lista de Temas */}
                 <div>
@@ -282,61 +282,29 @@ export default function RegistroTemasPage() {
                                 ) : (
                                     <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                         {tareas.map(tarea => (
-                                            <li key={tarea.id} style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'space-between',
-                                                padding: '1rem',
-                                                border: '1px solid var(--border)',
-                                                borderRadius: '8px',
-                                                background: tarea.completada ? 'var(--bg-secondary)' : 'transparent',
-                                                borderLeft: selectedPlan && selectedPlan.tema === tarea.texto ? '4px solid var(--accent)' : '1px solid var(--border)',
-                                                opacity: tarea.completada ? 0.7 : 1,
-                                                transition: 'all 0.2s',
-                                                gap: '0.5rem'
-                                            }}>
-                                                <label style={{ display: 'flex', alignItems: 'center', gap: '1rem', cursor: 'pointer', flex: 1 }}>
+                                            <li 
+                                                key={tarea.id} 
+                                                className={`task-item ${tarea.completada ? 'completada' : ''}`}
+                                                style={{
+                                                    borderLeft: selectedPlan && selectedPlan.tema === tarea.texto ? '4px solid var(--accent)' : undefined
+                                                }}
+                                            >
+                                                <label className="task-item-label">
                                                     <input
                                                         type="checkbox"
                                                         checked={tarea.completada}
                                                         onChange={() => alternarCompletada(tarea.id, tarea.completada)}
-                                                        style={{ width: '1.25rem', height: '1.25rem', cursor: 'pointer', accentColor: 'var(--accent)' }}
+                                                        className="task-item-checkbox"
                                                     />
-                                                    <span style={{
-                                                        fontSize: '1.125rem',
-                                                        textDecoration: tarea.completada ? 'line-through' : 'none',
-                                                        color: tarea.completada ? 'var(--text-secondary)' : 'var(--text-main)',
-                                                        wordBreak: 'break-word'
-                                                    }}>
+                                                    <span className="task-item-text">
                                                         {tarea.texto}
                                                     </span>
                                                 </label>
                                                 
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <div className="task-item-actions">
                                                     <button
                                                         onClick={() => handleGenerarPlan(tarea.texto)}
-                                                        style={{
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            gap: '0.35rem',
-                                                            padding: '0.5rem 0.85rem',
-                                                            background: 'var(--accent-soft)',
-                                                            border: '1px solid var(--accent)',
-                                                            borderRadius: '6px',
-                                                            color: 'var(--accent)',
-                                                            fontSize: '0.875rem',
-                                                            fontWeight: 600,
-                                                            cursor: 'pointer',
-                                                            transition: 'all 0.2s'
-                                                        }}
-                                                        onMouseOver={(e) => {
-                                                            e.currentTarget.style.background = 'var(--accent)'
-                                                            e.currentTarget.style.color = 'white'
-                                                        }}
-                                                        onMouseOut={(e) => {
-                                                            e.currentTarget.style.background = 'var(--accent-soft)'
-                                                            e.currentTarget.style.color = 'var(--accent)'
-                                                        }}
+                                                        className="task-study-btn"
                                                     >
                                                         <Sparkles size={14} />
                                                         Estudiar
@@ -344,16 +312,7 @@ export default function RegistroTemasPage() {
 
                                                     <button 
                                                         onClick={() => eliminarTarea(tarea.id)}
-                                                        style={{
-                                                            background: 'transparent',
-                                                            border: 'none',
-                                                            color: 'var(--text-secondary)',
-                                                            cursor: 'pointer',
-                                                            padding: '0.5rem',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center'
-                                                        }}
+                                                        className="task-delete-btn"
                                                         title="Eliminar objetivo"
                                                     >
                                                         <Trash2 size={20} />
@@ -390,58 +349,22 @@ export default function RegistroTemasPage() {
                         </div>
 
                         {/* Tabs Navegables */}
-                        <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--bg-secondary)', padding: '0.25rem', borderRadius: '8px', marginBottom: '1.5rem' }}>
+                        <div className="study-tabs-container">
                             <button
                                 onClick={() => setActiveTab('ruta')}
-                                style={{
-                                    flex: 1,
-                                    padding: '0.6rem',
-                                    border: 'none',
-                                    borderRadius: '6px',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem',
-                                    cursor: 'pointer',
-                                    background: activeTab === 'ruta' ? 'var(--card-bg)' : 'transparent',
-                                    color: activeTab === 'ruta' ? 'var(--text-main)' : 'var(--text-secondary)',
-                                    boxShadow: activeTab === 'ruta' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
-                                    transition: 'all 0.2s'
-                                }}
+                                className={`study-tab-btn ${activeTab === 'ruta' ? 'active' : ''}`}
                             >
                                 🗺️ Ruta de Estudio
                             </button>
                             <button
                                 onClick={() => setActiveTab('teoria')}
-                                style={{
-                                    flex: 1,
-                                    padding: '0.6rem',
-                                    border: 'none',
-                                    borderRadius: '6px',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem',
-                                    cursor: 'pointer',
-                                    background: activeTab === 'teoria' ? 'var(--card-bg)' : 'transparent',
-                                    color: activeTab === 'teoria' ? 'var(--text-main)' : 'var(--text-secondary)',
-                                    boxShadow: activeTab === 'teoria' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
-                                    transition: 'all 0.2s'
-                                }}
+                                className={`study-tab-btn ${activeTab === 'teoria' ? 'active' : ''}`}
                             >
                                 📖 Teoría Clave
                             </button>
                             <button
                                 onClick={() => setActiveTab('quiz')}
-                                style={{
-                                    flex: 1,
-                                    padding: '0.6rem',
-                                    border: 'none',
-                                    borderRadius: '6px',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem',
-                                    cursor: 'pointer',
-                                    background: activeTab === 'quiz' ? 'var(--card-bg)' : 'transparent',
-                                    color: activeTab === 'quiz' ? 'var(--text-main)' : 'var(--text-secondary)',
-                                    boxShadow: activeTab === 'quiz' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
-                                    transition: 'all 0.2s'
-                                }}
+                                className={`study-tab-btn ${activeTab === 'quiz' ? 'active' : ''}`}
                             >
                                 🧠 Práctica Didáctica
                             </button>
