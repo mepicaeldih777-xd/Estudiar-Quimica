@@ -789,6 +789,10 @@ h3 {
     display: none !important;
   }
   
+  .desktop-only {
+    display: none !important;
+  }
+  
   .main-content {
     padding: 1.5rem 1rem;
     min-width: 0;
